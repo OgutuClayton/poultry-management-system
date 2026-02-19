@@ -1,0 +1,120 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="topbar">
+    <h1>Dashboard</h1>
+    <div style="display:flex; align-items:center; gap:12px;">
+        <span style="font-size:13px; color:#888;">Welcome back, {{ session.username }} 👋</span>
+        <a href="/report/pdf" class="btn btn-amber">📄 Export PDF Report</a>
+    </div>
+</div>
+
+{% if alerts %}
+<div class="alert">
+    <strong>⚠ Farm Alerts</strong>
+    {% for alert in alerts %}
+    <div>• {{ alert }}</div>
+    {% endfor %}
+</div>
+{% endif %}
+
+<div class="stats-grid">
+    <div class="stat-card">
+        <div class="stat-icon" style="background:#e8f0eb;">🐣</div>
+        <div>
+            <h3>{{ flocks|sum(attribute='current_count') }}</h3>
+            <p>Total Birds ({{ flocks|length }} flocks)</p>
+        </div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-icon" style="background:#fef3e2;">💰</div>
+        <div>
+            <h3>KSh {{ profit|int }}</h3>
+            <p>Net Profit</p>
+        </div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-icon" style="background:#fde8dc;">🥚</div>
+        <div>
+            <h3>{{ eggs|int }}</h3>
+            <p>Total Eggs Collected</p>
+        </div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-icon" style="background:#e8f0eb;">📊</div>
+        <div>
+            <h3>{{ flocks|length }}</h3>
+            <p>Active Flocks</p>
+        </div>
+    </div>
+</div>
+
+<div class="grid-2">
+    <div class="card">
+        <h3>Flock Overview</h3>
+        {% for flock in flocks %}
+        <div style="padding:12px 0; border-bottom:1px solid #e8f0eb; display:flex; justify-content:space-between; align-items:center;">
+            <div>
+                <strong style="color:#1a3c2b;">{{ flock.name }}</strong>
+                <div style="font-size:12px; color:#888; margin-top:2px;">
+                    {{ flock.type }} · {{ flock.house }} · {{ flock.current_count }} birds
+                </div>
+            </div>
+            <span class="badge badge-green">{{ flock.status }}</span>
+        </div>
+        {% endfor %}
+    </div>
+
+    <div class="card">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+            <h3 style="margin:0;">Recent Daily Logs</h3>
+            <a href="/logs" class="btn btn-green btn-sm">+ Add Log</a>
+        </div>
+        {% for log in recent_logs %}
+        <div style="padding:10px 0; border-bottom:1px solid #e8f0eb; display:flex; justify-content:space-between;">
+            <div>
+                <strong style="font-size:13px;">{{ log.flock_name }}</strong>
+                <div style="font-size:11px; color:#888;">{{ log.log_date }} · Feed: {{ log.feed_consumed }}kg</div>
+            </div>
+            <div style="text-align:right;">
+                <span style="color:{% if log.mortality > 3 %}#c4704a{% else %}#4a7c59{% endif %}; font-weight:700; font-size:13px;">
+                    ↓{{ log.mortality }} dead
+                </span>
+                {% if log.eggs_collected %}
+                <div style="font-size:11px; color:#d4860a;">🥚 {{ log.eggs_collected }}</div>
+                {% endif %}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <div class="card">
+        <h3>Financial Summary</h3>
+        <div style="display:flex; flex-direction:column; gap:12px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; background:#e8f0eb; padding:10px 14px; border-radius:10px;">
+                <span style="font-weight:600;">Total Revenue</span>
+                <strong style="color:#2d5a3d; font-size:16px;">KSh {{ revenue|int }}</strong>
+            </div>
+            <div style="display:flex; justify-content:space-between; align-items:center; background:#fde8dc; padding:10px 14px; border-radius:10px;">
+                <span style="font-weight:600;">Total Expenses</span>
+                <strong style="color:#c4704a; font-size:16px;">KSh {{ expenses|int }}</strong>
+            </div>
+            <div style="display:flex; justify-content:space-between; align-items:center; background:#fef3e2; padding:10px 14px; border-radius:10px;">
+                <span style="font-weight:600;">Net Profit</span>
+                <strong style="color:#d4860a; font-size:16px;">KSh {{ profit|int }}</strong>
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <h3>Quick Actions</h3>
+        <div style="display:flex; flex-direction:column; gap:10px;">
+            <a href="/flocks" class="btn btn-green">🐣 Add New Flock</a>
+            <a href="/logs" class="btn btn-green">📋 Record Daily Log</a>
+            <a href="/inventory" class="btn btn-green">📦 Update Inventory</a>
+            <a href="/financials" class="btn btn-amber">💰 Add Transaction</a>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

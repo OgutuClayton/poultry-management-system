@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🐔 Poultry Management System</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+<div class="sidebar">
+    <div class="sidebar-brand">
+        <h2>🐔 PoultryMS</h2>
+        <p>FARM MANAGEMENT SYSTEM</p>
+    </div>
+    <nav>
+        <a href="/dashboard" class="{{ 'active' if request.path == '/dashboard' }}">
+            🏠 Dashboard
+        </a>
+        <a href="/flocks" class="{{ 'active' if request.path == '/flocks' }}">
+            🐣 Flock Management
+        </a>
+        <a href="/logs" class="{{ 'active' if request.path == '/logs' }}">
+            📋 Daily Logs
+        </a>
+        <a href="/inventory" class="{{ 'active' if request.path == '/inventory' }}">
+            📦 Inventory
+        </a>
+        <a href="/financials" class="{{ 'active' if request.path == '/financials' }}">
+            💰 Financials
+        </a>
+
+        {% if session.role == 'admin' %}
+<a href="/register" class="{{ 'active' if request.path == '/register' }}">
+    👥 User Management
+</a>
+{% endif %}
+    </nav>
+    <div style="padding: 16px 20px; border-top: 1px solid rgba(255,255,255,0.1);">
+        <p style="color:rgba(255,255,255,0.4); font-size:11px;">
+            Logged in as <strong style="color:#7cb87a;">{{ session.username }}</strong>
+        </p>
+        <a href="/logout" style="color:#c4704a; font-size:12px; text-decoration:none;">
+            🚪 Logout
+        </a>
+    </div>
+</div>
+
+<div class="main">
+    {% block content %}{% endblock %}
+</div>
+
+</body>
+</html>
