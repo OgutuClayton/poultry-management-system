@@ -2,19 +2,19 @@
 {% block content %}
 
 <div class="topbar">
-    <h1>Financials</h1>
+    <h1>Money Records</h1>
     <button class="btn btn-amber" onclick="document.getElementById('addTxForm').style.display='block'">
-        + Add Transaction
+        <i class="fa-solid fa-plus"></i> Record Money
     </button>
 </div>
 
 <!-- ADD TRANSACTION FORM -->
-<div id="addTxForm" style="display:none;" class="card">
-    <h3>Add Transaction</h3>
+<div id="addTxForm" style="display:none;" class="card" style="margin-bottom:24px;">
+    <h3>Record Money In or Out</h3>
     <form method="POST" action="/financials/add">
         <div class="form-grid-2">
             <div class="form-group">
-                <label>Flock</label>
+                <label>Chicken Group</label>
                 <select name="flock_id">
                     <option value="">-- General --</option>
                     {% for flock in flocks %}
@@ -24,13 +24,13 @@
             </div>
             <div class="form-group">
                 <label>Date *</label>
-               <input type="date" name="trans_date" required
-    min="2020-01-01"
-    max="2030-12-31"
-    value="{{ today }}">
+                <input type="date" name="trans_date" required
+                    min="2020-01-01"
+                    max="2030-12-31"
+                    value="{{ today }}">
             </div>
             <div class="form-group">
-                <label>Type</label>
+                <label>Money Direction</label>
                 <select name="type">
                     <option>Expense</option>
                     <option>Revenue</option>
@@ -58,11 +58,13 @@
             </div>
         </div>
         <div style="display:flex; gap:10px; margin-top:8px;">
-            <button type="submit" class="btn btn-amber">✔ Save Transaction</button>
+            <button type="submit" class="btn btn-amber">
+                <i class="fa-solid fa-check"></i> Save Transaction
+            </button>
             <button type="button" class="btn"
                 style="background:#e8f0eb; color:#1a3c2b;"
                 onclick="document.getElementById('addTxForm').style.display='none'">
-                Cancel
+                <i class="fa-solid fa-xmark"></i> Cancel
             </button>
         </div>
     </form>
@@ -71,24 +73,30 @@
 <!-- SUMMARY CARDS -->
 <div class="stats-grid" style="margin-bottom:24px;">
     <div class="stat-card">
-        <div class="stat-icon" style="background:#e8f0eb;">📈</div>
+        <div class="stat-icon" style="background:#e8f0eb;">
+            <i class="fa-solid fa-arrow-trend-up" style="color:#2d5a3d;"></i>
+        </div>
         <div>
             <h3 style="color:#2d5a3d;">KSh {{ revenue|int }}</h3>
-            <p>Total Revenue</p>
+            <p>Money Received</p>
         </div>
     </div>
     <div class="stat-card">
-        <div class="stat-icon" style="background:#fde8dc;">📉</div>
+        <div class="stat-icon" style="background:#fde8dc;">
+            <i class="fa-solid fa-arrow-trend-down" style="color:#c4704a;"></i>
+        </div>
         <div>
             <h3 style="color:#c4704a;">KSh {{ expenses|int }}</h3>
-            <p>Total Expenses</p>
+            <p>Money Spent</p>
         </div>
     </div>
     <div class="stat-card">
-        <div class="stat-icon" style="background:#fef3e2;">💰</div>
+        <div class="stat-icon" style="background:#fef3e2;">
+            <i class="fa-solid fa-trophy" style="color:#d4860a;"></i>
+        </div>
         <div>
             <h3 style="color:#d4860a;">KSh {{ profit|int }}</h3>
-            <p>Net Profit</p>
+            <p>Total Earnings</p>
         </div>
     </div>
 </div>
@@ -99,7 +107,7 @@
         <thead>
             <tr>
                 <th>Date</th>
-                <th>Flock</th>
+                <th>Chicken Group</th>
                 <th>Type</th>
                 <th>Category</th>
                 <th>Amount</th>
@@ -125,18 +133,18 @@
                 </td>
                 <td style="color:#888;">{{ tx.description or '-' }}</td>
                 <td>
-    <a href="/transactions/delete/{{ tx.id }}"
-       onclick="return confirm('Delete this transaction?')"
-       class="btn btn-sm"
-       style="background:#fde8dc; color:#c4704a;">
-       🗑
-    </a>
-</td>
+                    <a href="/transactions/delete/{{ tx.id }}"
+                       onclick="return confirm('Delete this transaction?')"
+                       class="btn btn-sm"
+                       style="background:#fde8dc; color:#c4704a;">
+                       <i class="fa-solid fa-trash"></i>
+                    </a>
+                </td>
             </tr>
             {% else %}
             <tr>
-                <td colspan="6" style="text-align:center; padding:32px; color:#aaa;">
-                    No transactions yet — add your first one above
+                <td colspan="7" style="text-align:center; padding:32px; color:#aaa;">
+                    No transactions yet — click Record Money to add your first one
                 </td>
             </tr>
             {% endfor %}

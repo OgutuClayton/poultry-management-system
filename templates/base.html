@@ -1,47 +1,53 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🐔 Poultry Management System</title>
+    <title>Poultry Management System</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
 </head>
 <body>
 
 <div class="sidebar">
     <div class="sidebar-brand">
-        <h2>🐔 PoultryMS</h2>
+        <h2><i class="fa-solid fa-feather"></i> PoultryMS</h2>
         <p>FARM MANAGEMENT SYSTEM</p>
     </div>
     <nav>
         <a href="/dashboard" class="{{ 'active' if request.path == '/dashboard' }}">
-            🏠 Dashboard
+            <i class="fa-solid fa-house"></i> Farm Overview
         </a>
         <a href="/flocks" class="{{ 'active' if request.path == '/flocks' }}">
-            🐣 Flock Management
+            <i class="fa-solid fa-egg"></i> My Chicken Groups
         </a>
         <a href="/logs" class="{{ 'active' if request.path == '/logs' }}">
-            📋 Daily Logs
+            <i class="fa-solid fa-clipboard-list"></i> Daily Farm Report
         </a>
         <a href="/inventory" class="{{ 'active' if request.path == '/inventory' }}">
-            📦 Inventory
+            <i class="fa-solid fa-boxes-stacked"></i> Farm Supplies
         </a>
         <a href="/financials" class="{{ 'active' if request.path == '/financials' }}">
-            💰 Financials
+            <i class="fa-solid fa-coins"></i> Money Records
         </a>
-
         {% if session.role == 'admin' %}
-<a href="/register" class="{{ 'active' if request.path == '/register' }}">
-    👥 User Management
-</a>
-{% endif %}
+        <a href="/register" class="{{ 'active' if request.path == '/register' }}">
+            <i class="fa-solid fa-users"></i> Manage Users
+        </a>
+        <a href="/audit" class="{{ 'active' if request.path == '/audit' }}">
+            <i class="fa-solid fa-shield-halved"></i> Activity History
+        </a>
+        {% endif %}
     </nav>
     <div style="padding: 16px 20px; border-top: 1px solid rgba(255,255,255,0.1);">
         <p style="color:rgba(255,255,255,0.4); font-size:11px;">
             Logged in as <strong style="color:#7cb87a;">{{ session.username }}</strong>
         </p>
         <a href="/logout" style="color:#c4704a; font-size:12px; text-decoration:none;">
-            🚪 Logout
+            <i class="fa-solid fa-right-from-bracket"></i> Logout
         </a>
     </div>
 </div>

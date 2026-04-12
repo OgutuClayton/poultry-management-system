@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="topbar">
+    <h1><i class="fa-solid fa-shield-halved"></i> Activity History</h1>
+    <span style="font-size:13px; color:#888;">All system changes are recorded here</span>
+</div>
+
+<div class="table-wrap">
+    <table>
+        <thead>
+            <tr>
+                <th>Date & Time</th>
+                <th>User</th>
+                <th>Action</th>
+                <th>Table</th>
+                <th>Record ID</th>
+                <th>Old Value</th>
+                <th>New Value</th>
+                <th>IP Address</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for log in logs %}
+            <tr>
+                <td style="white-space:nowrap;">{{ log.created_at }}</td>
+                <td><strong style="color:#1a3c2b;">{{ log.username }}</strong></td>
+                <td>
+                    <span class="badge 
+                        {% if log.action == 'ADD' %}badge-green
+                        {% elif log.action == 'DELETE' %}badge-red
+                        {% else %}badge-amber{% endif %}">
+                        {{ log.action }}
+                    </span>
+                </td>
+                <td style="color:#666;">{{ log.table_name }}</td>
+                <td style="color:#888;">#{{ log.record_id }}</td>
+                <td style="font-size:11px; color:#c4704a; max-width:150px; overflow:hidden;">
+                    {{ log.old_value or '-' }}
+                </td>
+                <td style="font-size:11px; color:#2d5a3d; max-width:150px; overflow:hidden;">
+                    {{ log.new_value or '-' }}
+                </td>
+                <td style="color:#888; font-size:12px;">{{ log.ip_address }}</td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="8" style="text-align:center; padding:32px; color:#aaa;">
+                    No activity recorded yet
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}
